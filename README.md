@@ -1,1 +1,3 @@
-#Trabajo Grupal LP2
+# Trabajo Grupal LP2
+## Integrantes:
+	- Nicholas Espinoza Loaiza
