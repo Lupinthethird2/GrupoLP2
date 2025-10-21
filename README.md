@@ -2,5 +2,6 @@
 ## Integrantes:
 	- Nicholas Espinoza Loaiza
 	- Gian Carrasco Barrial
-        - Aydan Werlen Soriano
+    - Aydan Werlen Soriano
+	- Ferro Choque Alvaro
  
