@@ -1,4 +1,5 @@
 # libreria_estadistica.py
+import pandas as pd
 # Clase de Basee 
 class Datos:
     def __init__(self, lista):
@@ -55,3 +56,4 @@ print(carreras.summary())
 print(generos.summary())
 print("La carrera con mas alumnos es",generos.moda())
 print("El genero dominante es el",carreras.moda())
+
