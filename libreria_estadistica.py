@@ -174,3 +174,4 @@ print("La carrera con mas alumnos es",generos.moda())
 print("El genero dominante es el",carreras.moda())
 '''
 
+print("Libreria de estadistica cargada correctamente")
