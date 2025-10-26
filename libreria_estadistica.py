@@ -165,13 +165,14 @@ analizador_puntaje = EstadisticasNum("PUNTAJE FINAL", datos_puntaje)
 print(analizador_puntaje.summary())
 
 '''
-carreras = EstadisticasCat("Sexo", df["Sexo"].tolist())
-generos = EstadisticasCat("Carrera", df["Carrera"].tolist())
+carreras = EstadisticasCat("Carrera", df["Carrera"].tolist())
+generos = EstadisticasCat("Sexo", df["Sexo"].tolist())
 
 print(carreras.summary())
 print(generos.summary())
 print("La carrera con mas alumnos es",generos.moda())
 print("El genero dominante es el",carreras.moda())
 '''
+
 
 print("Libreria de estadistica cargada correctamente")
