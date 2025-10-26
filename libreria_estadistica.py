@@ -68,34 +68,22 @@ class EstadisticasNum(Datos):
         n = self.cantidad()
         if n == 0:
             return None
-        s = 0.0
-        for x in self._num:
-            s += x
-        return float(s / n)
+        return float(self._s.mean())
 
     def mediana(self):
         n = self.cantidad()
         if n == 0:
             return None
-        s = sorted(self._num)
-        mid = n // 2
-        if n % 2 == 1:
-            return float(s[mid])
-        else:
-            return float((s[mid - 1] + s[mid]) / 2)
+        return float(self._s.median())
 
     def moda(self):
         if not self._num:
             return []
-        freq = {}
-        for x in self._num:
-            freq[x] = freq.get(x, 0) + 1
-        max_f = max(freq.values())
-        modos = [k for k, v in freq.items() if v == max_f]
-        return modos
+        m = self._s.mode()
+        return m.tolist()
 
     def rango(self):
-        if self.contar() == 0:
+        if self.cantidad() == 0:
             return None
         return float(self._s.max() - self._s.min())
 
@@ -109,10 +97,9 @@ class EstadisticasNum(Datos):
             return float(s[0])
         if p >= 100:
             return float(s[-1])
-        # posición real
         k = (p / 100.0) * (n - 1)
-        f = int(math.floor(k))
-        c = int(math.ceil(k))
+        f = int(k)
+        c = f if k == f else f + 1
         if f == c:
             return float(s[int(k)])
         df = k - f
@@ -123,6 +110,8 @@ class EstadisticasNum(Datos):
         q3 = self._percentil(75)
         if q1 is None or q3 is None:
             return None
+        q1 = float(self._s.quantile(0.25))
+        q3 = float(self._s.quantile(0.75))
         return float(q3 - q1)
 
     def varianza(self):
@@ -133,7 +122,7 @@ class EstadisticasNum(Datos):
         media_valor = self.media()
         suma_cuadrados = 0
 
-        for valor in self._serie:
+        for valor in self._num:
             diferencia = valor - media_valor
             suma_cuadrados += diferencia ** 2
 
@@ -158,10 +147,24 @@ class EstadisticasNum(Datos):
             "rango": self.rango(),
             "IQR": self.rango_intercuartilico(),
             "varianza": self.varianza(),
-            "desviacion_estandar": self.desviacion_estandar()
+            "stdev": self.desviacion_estandar()
         }
         return pd.DataFrame(resumen)
 
+
+import pandas as pd
+df_postulantes = pd.read_excel("Postulantes.xlsx", skiprows=2)
+print(df_postulantes.head())
+
+datos_sexo = df_postulantes["SEXO"].tolist()
+analizador_sexo = EstadisticasCat("SEXO", datos_sexo)
+print(analizador_sexo.summary())
+
+datos_puntaje = df_postulantes["PUNTAJE FINAL"].tolist()
+analizador_puntaje = EstadisticasNum("PUNTAJE FINAL", datos_puntaje)
+print(analizador_puntaje.summary())
+
+'''
 carreras = EstadisticasCat("Sexo", df["Sexo"].tolist())
 generos = EstadisticasCat("Carrera", df["Carrera"].tolist())
 
@@ -169,7 +172,5 @@ print(carreras.summary())
 print(generos.summary())
 print("La carrera con mas alumnos es",generos.moda())
 print("El genero dominante es el",carreras.moda())
-
-
-
+'''
 
