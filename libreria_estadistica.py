@@ -92,6 +92,7 @@ class EstadisticasNum(Datos):
         n = self.cantidad()
         if n == 0:
             return None
+<<<<<<< Updated upstream
         s = sorted(self._num)
         if p <= 0:
             return float(s[0])
@@ -110,6 +111,8 @@ class EstadisticasNum(Datos):
         q3 = self._percentil(75)
         if q1 is None or q3 is None:
             return None
+=======
+>>>>>>> Stashed changes
         q1 = float(self._s.quantile(0.25))
         q3 = float(self._s.quantile(0.75))
         return float(q3 - q1)
@@ -156,6 +159,10 @@ import pandas as pd
 df_postulantes = pd.read_excel("Postulantes.xlsx", skiprows=2)
 print(df_postulantes.head())
 
+<<<<<<< Updated upstream
+=======
+from libreria_estadistica import EstadisticasCat, EstadisticasNum
+>>>>>>> Stashed changes
 datos_sexo = df_postulantes["SEXO"].tolist()
 analizador_sexo = EstadisticasCat("SEXO", datos_sexo)
 print(analizador_sexo.summary())
@@ -165,14 +172,22 @@ analizador_puntaje = EstadisticasNum("PUNTAJE FINAL", datos_puntaje)
 print(analizador_puntaje.summary())
 
 '''
+<<<<<<< Updated upstream
 carreras = EstadisticasCat("Carrera", df["Carrera"].tolist())
 generos = EstadisticasCat("Sexo", df["Sexo"].tolist())
+=======
+carreras = EstadisticasCat("Sexo", df["Sexo"].tolist())
+generos = EstadisticasCat("Carrera", df["Carrera"].tolist())
+>>>>>>> Stashed changes
 
 print(carreras.summary())
 print(generos.summary())
 print("La carrera con mas alumnos es",generos.moda())
 print("El genero dominante es el",carreras.moda())
 '''
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
 print("Libreria de estadistica cargada correctamente")
