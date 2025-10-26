@@ -100,19 +100,35 @@ class EstadisticasNum(Datos):
         n = self.cantidad()
         if n == 0:
             return None
-        return float(self._s.mean())
+        suma = 0
+        for valor in self._num:
+            suma += valor
+        return float(suma / n)
 
     def mediana(self):
         n = self.cantidad()
         if n == 0:
             return None
-        return float(self._s.median())
+        datos_ordenados = sorted(self._num)
+        mitad = n // 2
+        if n % 2 == 0:
+            mediana = (datos_ordenados[mitad - 1] + datos_ordenados[mitad]) / 2
+        else:
+            mediana = datos_ordenados[mitad]
+        return float(mediana)
 
     def moda(self):
         if not self._num:
             return []
-        m = self._s.mode()
-        return m.tolist()
+        frecuencias = {}
+        for valor in self._num:
+            if valor in frecuencias:
+                frecuencias[valor] += 1
+            else:
+                frecuencias[valor] = 1
+        max_frec = max(frecuencias.values())
+        modas = [valor for valor, freq in frecuencias.items() if freq == max_frec]
+        return modas
 
     def rango(self):
         if self.cantidad() == 0:
@@ -221,4 +237,5 @@ print("El genero dominante es el",carreras.moda())
 >>>>>>> Stashed changes
 
 print("Libreria de estadistica cargada correctamente")
+
 
