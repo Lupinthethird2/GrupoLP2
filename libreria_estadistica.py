@@ -58,35 +58,68 @@ class EstadisticasNum(Datos):
         self._s = serie
         self._num = serie.tolist()
 
-    def contar(self):
+    def cantidad(self):
         return len(self._s)
 
     def media(self):
-        if self.contar() == 0:
+        n = self.cantidad()
+        if n == 0:
             return None
-        return float(self._s.media())
+        s = 0.0
+        for x in self._num:
+            s += x
+        return float(s / n)
 
     def mediana(self):
-        if self.contar() == 0:
+        n = self.cantidad()
+        if n == 0:
             return None
-        return float(self._s.mediana())
+        s = sorted(self._num)
+        mid = n // 2
+        if n % 2 == 1:
+            return float(s[mid])
+        else:
+            return float((s[mid - 1] + s[mid]) / 2)
 
     def moda(self):
-        if self.contar() == 0:
+        if not self._num:
             return []
-        m = self._s.moda()
-        return m.tolist()
+        freq = {}
+        for x in self._num:
+            freq[x] = freq.get(x, 0) + 1
+        max_f = max(freq.values())
+        modos = [k for k, v in freq.items() if v == max_f]
+        return modos
 
-    def data_rango(self):
+    def rango(self):
         if self.contar() == 0:
             return None
         return float(self._s.max() - self._s.min())
 
-    def interquartil_rango(self):
-        if self.contar() == 0:
+
+    def _percentil(self, p):
+        n = self.cantidad()
+        if n == 0:
             return None
-        q1 = float(self._s.quantil(0.25))
-        q3 = float(self._s.quantil(0.75))
+        s = sorted(self._num)
+        if p <= 0:
+            return float(s[0])
+        if p >= 100:
+            return float(s[-1])
+        # posición real
+        k = (p / 100.0) * (n - 1)
+        f = int(math.floor(k))
+        c = int(math.ceil(k))
+        if f == c:
+            return float(s[int(k)])
+        df = k - f
+        return float(s[f] * (1 - df) + s[c] * df)
+
+    def rango_intercuartilico(self):
+        q1 = self._percentil(25)
+        q3 = self._percentil(75)
+        if q1 is None or q3 is None:
+            return None
         return float(q3 - q1)
 
     def varianza(self):
@@ -115,14 +148,14 @@ class EstadisticasNum(Datos):
     def summary(self):
         resumen = {
             "variable": self.name,
-            "contar": self.contar(),
+            "cantidad": self.cantidad(),
             "media": self.media(),
             "mediana": self.mediana(),
             "moda": self.moda(),
-            "rango": self.data_rango(),
-            "IQR": self.interquartil_rango(),
+            "rango": self.rango(),
+            "IQR": self.rango_intercuartilico(),
             "varianza": self.varianza(),
-            "stdev": self.stdev()
+            "desviacion_estandar": self.desviacion_estandar()
         }
         return pd.DataFrame(resumen)
 
@@ -133,5 +166,6 @@ print(carreras.summary())
 print(generos.summary())
 print("La carrera con mas alumnos es",generos.moda())
 print("El genero dominante es el",carreras.moda())
+
 
 
