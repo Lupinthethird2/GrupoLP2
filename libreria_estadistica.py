@@ -1,5 +1,8 @@
-# libreria_estadistica.py
+#Carga y lectura de los datos en excel
 import pandas as pd
+df = pd.read_excel("data_unalm_estudiantes_var.xlsx")
+
+# libreria_estadistica.py
 # Clase de Basee 
 class Datos:
     def __init__(self, lista):
@@ -166,6 +169,7 @@ print(carreras.summary())
 print(generos.summary())
 print("La carrera con mas alumnos es",generos.moda())
 print("El genero dominante es el",carreras.moda())
+
 
 
 
