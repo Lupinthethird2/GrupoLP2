@@ -52,6 +52,38 @@ class EstadisticasCat(Datos):
             })
         return pd.DataFrame(resumen)
 
+carreras = EstadisticasCat("Sexo", df["Sexo"].tolist())
+generos = EstadisticasCat("Carrera", df["Carrera"].tolist())
+
+# Graficos de barras
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+tabla_genero = generos.summary()
+
+ax = sns.barplot(data=tabla_genero, x="categoria", y="porcentaje", palette="pastel")
+
+plt.title("Porcentaje de estudiantes por sexo")
+plt.xlabel("Sexo")
+plt.ylabel("Porcentaje")
+
+for index, row in tabla_genero.iterrows():
+    ax.text(index, row.porcentaje + 1, f'{row.porcentaje:.1f}%', color='black', ha="center") 
+    
+plt.show()
+
+tabla_carrera = carreras.summary()
+ac = sns.barplot(data=tabla_carrera, x="categoria", y="porcentaje", palette="pastel")
+plt.title("Porcentaje de estudiantes por Carreras")
+plt.xlabel("Carreras")
+plt.ylabel("Porcentaje")
+for index, row in tabla_carrera.iterrows():
+    ac.text(index, row.porcentaje + 1, f'{row.porcentaje:.1f}%', color='black', ha="center") 
+plt.ylim(0, 18)
+plt.xticks(rotation=45, ha="right",fontsize=7)   # etiquetas diagonales
+plt.tight_layout()
+plt.show()
+
 # Tabla estadística para variables cuantitativas
 class EstadisticasNum(Datos):
     def __init__(self, name, data):
@@ -173,9 +205,7 @@ print(analizador_puntaje.summary())
 
 '''
 <<<<<<< Updated upstream
-carreras = EstadisticasCat("Carrera", df["Carrera"].tolist())
-generos = EstadisticasCat("Sexo", df["Sexo"].tolist())
-=======
+
 carreras = EstadisticasCat("Sexo", df["Sexo"].tolist())
 generos = EstadisticasCat("Carrera", df["Carrera"].tolist())
 >>>>>>> Stashed changes
@@ -191,3 +221,4 @@ print("El genero dominante es el",carreras.moda())
 >>>>>>> Stashed changes
 
 print("Libreria de estadistica cargada correctamente")
+
