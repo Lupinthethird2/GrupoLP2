@@ -219,6 +219,26 @@ datos_puntaje = df_postulantes["PUNTAJE FINAL"].tolist()
 analizador_puntaje = EstadisticasNum("PUNTAJE FINAL", datos_puntaje)
 print(analizador_puntaje.summary())
 
+# Prueba de Matematicas (estadisticas totales)
+da_mat = df_postulantes["PUNTAJE MATEMÁTICAS"].tolist()
+a_puntaje = EstadisticasNum("PUNTAJE MATEMÁTICAS", da_mat)
+print(a_puntaje.summary())
+
+# Histograma
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.ticker import MaxNLocator
+
+plt.figure(figsize=(8, 5))
+plt.hist(da_mat, bins=20, color='green', edgecolor='black')
+plt.title("Histograma - Puntaje de Matemáticas")
+plt.xlabel("Puntaje de Matemáticas")
+plt.ylabel("Frecuencia")
+plt.grid(axis='y', alpha=0.75)
+ax = plt.gca()  
+ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+plt.show()
+
 '''
 <<<<<<< Updated upstream
 
@@ -237,5 +257,6 @@ print("El genero dominante es el",carreras.moda())
 >>>>>>> Stashed changes
 
 print("Libreria de estadistica cargada correctamente")
+
 
 
